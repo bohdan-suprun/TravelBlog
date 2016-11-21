@@ -1,3 +1,4 @@
-/**
- * Created by veronika on 17.11.16.
- */
+
+var BaseView = {
+  // Not implemented yet
+}
