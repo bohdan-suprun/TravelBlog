@@ -1,3 +1,22 @@
-/**
- * Created by veronika on 17.11.16.
- */
+//инициализирует объект db
+module.exports = function(db) {
+    this.db = db;
+};
+//получает collection из базы данных
+module.exports.prototype = {
+    extend: function(properties) {
+        var Child = module.exports;
+        Child.prototype = module.exports.prototype;
+        for(var key in properties) {
+            Child.prototype[key] = properties[key];
+        }
+        return Child;
+    },
+    setDB: function(db) {
+        this.db = db;
+    },
+    collection: function() {
+        if(this._collection) return this._collection;
+        return this._collection = this.db.collection('travelblog-content');
+    }
+}
