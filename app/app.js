@@ -9,10 +9,10 @@ var express = require('express'),
     config = require('./config')(),
     app = express(),
     MongoClient = require('mongodb').MongoClient,
-    Admin = require('./controllers/Admin'),
-    Home = require('./controllers/Home'),
-    Blog = require('./controllers/Blog'),
-    Page = require('./controllers/Page');
+    Admin = require('./controllers/Admin');
+    //Home = require('./controllers/Home'),
+    //Blog = require('./controllers/Blog'),
+    //Page = require('./controllers/Page');
 
 // all environments
 // app.set('port', process.env.PORT || 3000);
