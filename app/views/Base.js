@@ -1,4 +1,4 @@
-
-var BaseView = {
-  // Not implemented yet
-}
+module.exports = function(response, template) {
+	this.response = response;
+	this.template = template;
+};
