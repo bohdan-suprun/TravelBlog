@@ -7,7 +7,7 @@
 	Text:<br />
 	<textarea name="text">{{text}}</textarea><br />
 	Picture:<br />
-	<input type="file" name="picture" /><br />{{{pictureTag}}}<br />
+	<input type="file" name="picture" accept="image/jpeg,image/png,image/gif" /><br />{{{pictureTag}}}<br />
 	Type:<br />
 	<select name="type">
 		{{{type}}
