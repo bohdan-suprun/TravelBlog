@@ -270,6 +270,7 @@ nav .menu li a:hover {
     margin: 10px 0 20px 0;
 }
 .admin input[type="text"],
+.admin input[type="password"],
 .admin select,
 .admin textarea {
     border: solid 1px #999;
