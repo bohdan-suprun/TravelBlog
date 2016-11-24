@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>{{ title }}</title>
-		<link rel='stylesheet' href='/stylesheets/style.css' />
-	</head>
-	<body class="admin">
-		<div class="container">
-			<form action="/admin" method="post">
-				Username:<br />
-				<input type="text" name="username" /><br />
-				Password:<br />
-				<input type="password" name="password" /><br /><br />
-				<input type="submit" value="login" />
-			</form>
-		</div>
-	</body>
+<head>
+	<meta charset="utf-8">
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href='/stylesheets/adminLogin.css'>
+</head>
+<body>
+
+  <section class="container">
+    <div class="login">
+      <h1>Authorization</h1>
+      <form action="/admin" method="post">
+        <p><input type="text" name="username" placeholder="Username" required></p>
+        <p><input type="password" name="password" placeholder="Password" required></p>
+        <p class="submit_authrztn"><input type="submit" value="Log in"></p>
+      </form>
+    </div>
+
+  </section>
+</body>
 </html>
