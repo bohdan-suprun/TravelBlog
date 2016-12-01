@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{ title }}</title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+	</head>
+	<body>
+		<div class="container">
+            
+            <!-- navigation -->
+			<nav>
+				<div class="content">
+					<a href="/" class="logo">
+                        <p>Travel With Me </p>
+					</a>
+                    <ul class="menu">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/services">About</a></li>
+                        <li><a href="/contacts">Contact me</a></li>
+                    </ul>
+                    <br class="clear" />
+				</div>
+			</nav>
+            
+            <!-- home page -->
+            <div class="home">
+                <div class="home-main-pic">
+                    <header>
+                        <h1>Travel</h1>
+                        <h3>Better. Cheaper. Longer</h3>
+                    </header>
+                </div>
+                <div class="teaser">
+                    <div class="content">
+                        <img src="/images/home-teaser-image.jpg" alt="" class="home-teaser-image" />
+                        <h2>{{bannerTitle}}</h2>
+                        <p>{{bannerText}}</p>
+                        <div class="home-teaser-icons">
+
+                            <br class="clear" />
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="blog-articles">
+                    <header>
+                        <h3>My Blog</h3>
+                    </header>
+                    <div class="content">
+                        {{{blogArticles}}}
+                    </div>
+                    <br class="clear" />
+                </div>
+            </div>
+            
+            <!-- footer -->
+            <div class="footer">
+                <div class="content">
+                    TravelBlog Inc &copy; 2016
+                </div>
+            </div>
+            
+		</div>
+	</body>
+</html>
