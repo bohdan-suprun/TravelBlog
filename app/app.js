@@ -6,12 +6,12 @@
 var express = require('express'),
     http = require('http'),
     path = require('path'),
-    config = require('./config')(),
+    config = require('./config'),
     app = express(),
     MongoClient = require('mongodb').MongoClient,
-    Admin = require('./controllers/Admin');
-    //Home = require('./controllers/Home'),
-    //Blog = require('./controllers/Blog'),
+    Admin = require('./controllers/Admin'),
+    Home = require('./controllers/Home'),
+    Blog = require('./controllers/Blog');
     //Page = require('./controllers/Page');
 
 // all environments
@@ -43,6 +43,12 @@ MongoClient.connect('mongodb://' + config.mongo.host + ':' + config.mongo.port +
         };
         app.all('/admin*', attachDB, function(req, res, next) {
             Admin.run(req, res, next);
+        });
+        app.all('/blog/:id', attachDB, function(req, res, next) {
+            Blog.runArticle(req, res, next);
+        });
+        app.all('/blog', attachDB, function(req, res, next) {
+            Blog.run(req, res, next);
         });
         app.all('/', attachDB, function(req, res, next) {
             Home.run(req, res, next);
