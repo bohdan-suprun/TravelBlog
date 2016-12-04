@@ -6,15 +6,15 @@
 var express = require('express'),
     http = require('http'),
     path = require('path'),
-    config = require('./config'),
+    config = require('./config')(),
     app = express(),
     MongoClient = require('mongodb').MongoClient,
     Admin = require('./controllers/Admin'),
     Home = require('./controllers/Home'),
     Blog = require('./controllers/Blog');
     //Page = require('./controllers/Page');
-
 // all environments
+
 // app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/templates');
 app.set('view engine', 'hjs');
@@ -28,6 +28,7 @@ app.use(app.router);
 app.use(require('less-middleware')({ src: __dirname + '/public' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+console.log(config);
 // development only
 if ('development' == app.get('env')) {
     app.use(express.errorHandler());
