@@ -6,11 +6,11 @@
 var express = require('express'),
     http = require('http'),
     path = require('path'),
-    config = require('./config')(),
+    config = require('./config'),
     app = express(),
     MongoClient = require('mongodb').MongoClient,
-    Admin = require('./controllers/Admin');
-    //Home = require('./controllers/Home'),
+    Admin = require('./controllers/Admin'),
+    Home = require('./controllers/Home');
     //Blog = require('./controllers/Blog'),
     //Page = require('./controllers/Page');
 
