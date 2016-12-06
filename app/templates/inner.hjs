@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{ title }}</title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+	</head>
+	<body>
+		<div class="container">
+            
+            <!-- navigation -->
+			<nav>
+				<div class="content">
+					<a href="/" class="logo">
+						<p>Travel With Me </p>
+					</a>
+                    <ul class="menu">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/services">About</a></li>
+                        <li><a href="/contacts">Contact me</a></li>
+                    </ul>
+                    <br class="clear" />
+				</div>
+			</nav>
+            
+            <!-- inner page -->
+            <div class="inner">
+                <div class="content">
+                    <section>
+                        <img src="{{picture}}" alt="" />
+                        <h1>{{title}}</h1>
+                        <p>{{text}}</p>
+                    </section>
+                </div>
+            </div>
+            
+            <!-- footer -->
+            <div class="footer">
+                <div class="content">
+                   Veronika Kuleshova &copy; 2016
+                </div>
+            </div>
+            
+		</div>
+	</body>
+</html>
