@@ -11,10 +11,10 @@ var express = require('express'),
     MongoClient = require('mongodb').MongoClient,
     Admin = require('./controllers/Admin'),
     Home = require('./controllers/Home'),
-    Blog = require('./controllers/Blog');
-    //Page = require('./controllers/Page');
-// all environments
+    Blog = require('./controllers/Blog'),
+    Page = require('./controllers/Page');
 
+// all environments
 // app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/templates');
 app.set('view engine', 'hjs');
@@ -50,6 +50,12 @@ MongoClient.connect('mongodb://' + config.mongo.host + ':' + config.mongo.port +
         });
         app.all('/blog', attachDB, function(req, res, next) {
             Blog.run(req, res, next);
+        });
+        app.all('/services', attachDB, function(req, res, next) {
+            Page.run('services', req, res, next);
+        });
+        app.all('/contacts', attachDB, function(req, res, next) {
+            Page.run('contacts', req, res, next);
         });
         app.all('/', attachDB, function(req, res, next) {
             Home.run(req, res, next);
