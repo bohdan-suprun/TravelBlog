@@ -3,13 +3,13 @@ var BaseController = require("./Base"),
 	model = new (require("../models/ContentModel")),
 	crypto = require("crypto"),
 	fs = require("fs");
-
+var self;
 module.exports = BaseController.extend({ 
 	name: "Admin",
 	username: "admin",
 	password: "admin",
 	run: function(req, res, next) {
-		var self = this;
+		self = this;
 		if(this.authorize(req)) {
 			model.setDB(req.db);
 			req.session.fastdelivery = true;
@@ -75,7 +75,7 @@ module.exports = BaseController.extend({
 	form: function(req, res, callback) {
 		var returnTheForm = function() {
 			if(req.query && req.query.action === "edit" && req.query.id) {
-				model.getlist(function(err, records) {
+				self.getAvailableTypes(function(types, err, records) {
 					if(records.length > 0) {
 						var record = records[0];
 						res.render('admin-record', {
@@ -84,7 +84,8 @@ module.exports = BaseController.extend({
 							title: record.title,
 							type: '<option value="' + record.type + '">' + record.type + '</option>',
 							picture: record.picture,
-							pictureTag: record.picture != '' ? '<img class="list-picture" src="' + record.picture + '" />' : ''
+							pictureTag: record.picture != '' ? '<img class="list-picture" src="' + record.picture + '" />' : '',
+							types: types
 						}, function(err, html) {
 							callback(html);
 						});
@@ -95,9 +96,11 @@ module.exports = BaseController.extend({
 					}
 				}, {ID: req.query.id});
 			} else {
-				res.render('admin-record', {}, function(err, html) {
-					callback(html);
-				});
+			  self.getAvailableTypes(function(types, err, records){
+			    res.render('admin-record', {types:types}, function(err, html) {
+				callback(html);
+			    });
+			  });
 			}
 		}
 		if(req.body && req.body.formsubmitted && req.body.formsubmitted === 'yes') {
@@ -115,6 +118,25 @@ module.exports = BaseController.extend({
 			returnTheForm();
 		}
 	},
+	getAvailableTypes: function(callback) {
+	  var types = ["blog", "about", "contscts", "services"];
+	  var homeIsPresent = false;
+	  model.getlist(function(err, records){
+	      for (var i = 0; i < records.length; i++) {
+		if (records[i].type === "home") {
+		  homeIsPresent = true;
+		  break;	      
+		}
+	      }
+	  
+	      if (!homeIsPresent) {
+		types.push('home');	    
+	      }
+	      
+	      callback(types, err, records);
+	  });
+	},
+	
 	del: function(req, callback) {
 		if(req.query && req.query.action === "delete" && req.query.id) {
 			model.remove(req.query.id, callback);
