@@ -4,6 +4,10 @@ var BaseController = require("./Base"),
 	crypto = require("crypto"),
 	fs = require("fs");
 var self;
+
+var TYPES = ["blog", "about", "contacts"];
+var TYPES_WITH_HOME = ["blog", "about", "contacts", 'home'];
+
 module.exports = BaseController.extend({ 
 	name: "Admin",
 	username: "admin",
@@ -75,29 +79,29 @@ module.exports = BaseController.extend({
 	form: function(req, res, callback) {
 		var returnTheForm = function() {
 			if(req.query && req.query.action === "edit" && req.query.id) {
-				self.getAvailableTypes(function(types, err, records) {
+				self.checkForHomeAndRetrieve(function(types, err, records) {
 					if(records.length > 0) {
 						var record = records[0];
 						res.render('admin-record', {
 							ID: record.ID,
 							text: record.text,
 							title: record.title,
-							type: '<option value="' + record.type + '">' + record.type + '</option>',
+							type: record.type,
 							picture: record.picture,
 							pictureTag: record.picture != '' ? '<img class="list-picture" src="' + record.picture + '" />' : '',
-							types: types
+							types: self.getTypes(types, record.type)
 						}, function(err, html) {
 							callback(html);
 						});
 					} else {
-						res.render('admin-record', {}, function(err, html) {
+						res.render('admin-record', {types:self.getTypes(types)}, function(err, html) {
 							callback(html);
 						});
 					}
 				}, {ID: req.query.id});
 			} else {
-			  self.getAvailableTypes(function(types, err, records){
-			    res.render('admin-record', {types:types}, function(err, html) {
+			  self.checkForHomeAndRetrieve(function(types, err, records){
+			    res.render('admin-record', {types:self.getTypes(types)}, function(err, html) {
 				callback(html);
 			    });
 			  });
@@ -118,23 +122,21 @@ module.exports = BaseController.extend({
 			returnTheForm();
 		}
 	},
-	getAvailableTypes: function(callback) {
-	  var types = ["blog", "about", "contscts", "services"];
+	checkForHomeAndRetrieve: function(callback, query) {
 	  var homeIsPresent = false;
-	  model.getlist(function(err, records){
-	      for (var i = 0; i < records.length; i++) {
-		if (records[i].type === "home") {
-		  homeIsPresent = true;
-		  break;	      
-		}
-	      }
-	  
-	      if (!homeIsPresent) {
-		types.push('home');	    
-	      }
-	      
-	      callback(types, err, records);
-	  });
+	  model.getlist(function(err, records) {
+	      var isHomePresent = records && records.length > 0;
+	      model.getlist(function(err, records) {
+	        var types = isHomePresent? TYPES: TYPES_WITH_HOME;
+	        if (records && records.length == 1 && records[0].type === 'home') {
+	            // in this case we try to edit the home page
+	            // so we need to include this type
+	            console.log(TYPES_WITH_HOME);
+	            types = TYPES_WITH_HOME;
+	        }
+	        callback(types, err, records);
+	      }, query);
+	  }, {type:'home'});
 	},
 	
 	del: function(req, callback) {
@@ -155,5 +157,20 @@ module.exports = BaseController.extend({
 		fs.mkdirSync(dir, '0777');
 		fs.writeFileSync(dir + "/" + fileName, data);
 		return '/uploads/' + uid + "/" + fileName;
-	}
+	},
+	getTypes: function(types, type) {
+        var typesAsHtml = [];
+        console.log(types);
+        for (var i = 0; i < types.length; i++) {
+            var currentType = types[i];
+            if (currentType === type) {
+                typesAsHtml.push('<option selected value="' + currentType + '">' + currentType + '</option>');
+            } else {
+                typesAsHtml.push('<option value="' + currentType + '">' + currentType + '</option>')
+            }
+        }
+
+            console.log(typesAsHtml);
+            return typesAsHtml;
+    }
 });

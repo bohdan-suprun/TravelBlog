@@ -51,8 +51,8 @@ MongoClient.connect('mongodb://' + config.mongo.host + ':' + config.mongo.port +
         app.all('/blog', attachDB, function(req, res, next) {
             Blog.run(req, res, next);
         });
-        app.all('/services', attachDB, function(req, res, next) {
-            Page.run('services', req, res, next);
+        app.all('/about', attachDB, function(req, res, next) {
+            Page.run('about', req, res, next);
         });
         app.all('/contacts', attachDB, function(req, res, next) {
             Page.run('contacts', req, res, next);
