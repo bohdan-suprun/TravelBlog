@@ -115,9 +115,14 @@ module.exports = BaseController.extend({
 				picture: this.handleFileUpload(req),
 				ID: req.body.ID
 			}
-			model[req.body.ID != '' ? 'update' : 'insert'](data, function(err, objects) {
-				returnTheForm();
-			});
+			
+			if (!isEmptyData(data)) {
+			  model[req.body.ID != '' ? 'update' : 'insert'](data, function(err, objects) {
+				  returnTheForm();
+			  });
+			} else {
+			  returnTheForm();
+			}
 		} else {
 			returnTheForm();
 		}
@@ -174,3 +179,7 @@ module.exports = BaseController.extend({
             return typesAsHtml;
     }
 });
+
+function isEmptyData(data) {
+  return !(data.text && data.title && data.type);
+}
